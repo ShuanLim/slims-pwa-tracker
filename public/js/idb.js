@@ -1,34 +1,34 @@
 let db;
-const request = indexedDB.open("budget", 1);
+const request = indexedDB.open("budget_tracker", 1);
 
 request.onupgradeneeded = function (event) {
   const db = event.target.result;
-  db.createObjectStore("pending", { autoIncrement: true });
+  db.createObjectStore("new_budget", { autoIncrement: true });
 };
 
 request.onsuccess = function (event) {
-  db = event.target.result;
+   db = event.target.result;
 
   // check if app is online
   if (navigator.onLine) {
-    checkDatabase();
+    uploadBudget();
   }
 };
 
 request.onerror = function (event) {
-  console.log("Woops! " + event.target.errorCode);
+  console.log("Error: " + event.target.errorCode);
 };
 
 function saveRecord(record) {
-  const transaction = db.transaction(["pending"], "readwrite");
-  const store = transaction.objectStore("pending");
+  const transaction = db.transaction(["new_budget"], "readwrite");
+  const store = transaction.objectStore("new_budget");
 
   store.add(record);
 }
 
-function checkDatabase() {
-  const transaction = db.transaction(["pending"], "readwrite");
-  const store = transaction.objectStore("pending");
+function uploadBudget() {
+  const transaction = db.transaction(["new_budget"], "readwrite");
+  const store = transaction.objectStore("new_budget");
   const getAll = store.getAll();
 
   getAll.onsuccess = function () {
@@ -44,18 +44,18 @@ function checkDatabase() {
         .then(response => response.json())
         .then(() => {
           // delete the records if successful
-          const transaction = db.transaction(["pending"], "readwrite");
-          const store = transaction.objectStore("pending");
+          const transaction = db.transaction(["new_budget"], "readwrite");
+          const store = transaction.objectStore("new_budget");
           store.clear();
         });
     }
   };
 }
 function deletePending() {
-  const transaction = db.transaction(["pending"], "readwrite");
-  const store = transaction.objectStore("pending");
+  const transaction = db.transaction(["new_budget"], "readwrite");
+  const store = transaction.objectStore("new_budget");
   store.clear();
 }
 
 // listen for app
-window.addEventListener("online", checkDatabase); 
+window.addEventListener("online", uploadBudget); 

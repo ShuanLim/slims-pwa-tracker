@@ -36,9 +36,9 @@ THEN the deposits or expenses added while they were offline are added to their t
 Run through the following instructions prior to using the application:
 
 - Please clone this repository or copy the code to your development environment.
-- You must have Node.js, Express, to run this app on your machine.
+- You must have Node.js, Express, MongoDB, to run this app on your machine.
 
-- From the Develop file, run commands:
+- From the root directory, run commands:
 
 ```
 npm i
@@ -51,6 +51,8 @@ npm start
 ```
 
 ## Screenshot
+
+<img width="908" alt="Screen Shot 2022-07-20 at 10 27 43 PM" src="https://user-images.githubusercontent.com/79289373/180136442-c7f78dae-88f2-4671-90d8-70f7a65d031e.png">
 
 ## Contributions
 
